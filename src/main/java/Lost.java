@@ -27,6 +27,7 @@ public class Lost {
       if (a[0].substring(2).equals("0000")) {
         level_one.add(a[1]);
 
+
       }
       else if (a[0].substring(4).equals("00")){
         level_two.add(a[1]);
