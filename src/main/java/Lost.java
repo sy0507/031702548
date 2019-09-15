@@ -91,6 +91,7 @@ public class Lost {
             jsonArray.put(province="");
           }
         }
+
         else {
           jsonArray.put(province == null ? "" : province.trim());
         }
