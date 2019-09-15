@@ -1,0 +1,40 @@
+
+vsquid:S3776
+"SRefactor this method to reduce its Cognitive Complexity from 142 to the 15 allowed.(Ú±ò´ýÿÿÿÿ8¤þ¢œÓ-
+Lsquid:S1481¾"(Remove this unused "out" local variable.(ä•‡úÿÿÿÿÿ8æº‰ŸÓ-
+Csquid:S1659?"%Declare "village" on a separate line.(ážÎž8¤þ¢œÓ-
+isquid:CommentedOutCodeLineB"<This block of commented-out lines of code should be removed.(šÞ×¨8¤þ¢œÓ-
+e$squid:AssignmentInSubExpressionChecki".Extract the assignment out of this expression.(œõ¯þ8¤þ¢œÓ-
+W
+squid:S106Ã"9Replace this use of System.out or System.err by a logger.(Ž‘±…8Ëñ‰ŸÓ-
+@squid:S1659?""Declare "city" on a separate line.(ážÎž8¤þ¢œÓ-
+bsquid:S1854">Remove this useless assignment to local variable "county_one".(˜ìà‚ÿÿÿÿÿ8¤þ¢œÓ-
+nsquid:CommentedOutCodeLine&"<This block of commented-out lines of code should be removed.(ÐÝú×ùÿÿÿÿ8¤þ¢œÓ-
+jsquid:CommentedOutCodeLine·"<This block of commented-out lines of code should be removed.(›ìÑÖ8ìÏ£žÓ-
+[squid:S1854¾"7Remove this useless assignment to local variable "out".(ä•‡úÿÿÿÿÿ8æº‰ŸÓ-
+psquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(õ„ºÒ8¤þ¢œÓ-
+k$squid:AssignmentInSubExpressionCheck".Extract the assignment out of this expression.(˜ìà‚ÿÿÿÿÿ8¤þ¢œÓ-
+j$squid:AssignmentInSubExpressionCheckN".Extract the assignment out of this expression.(èë£±üÿÿÿÿ8¤þ¢œÓ-
+@squid:S1659?""Declare "road" on a separate line.(ážÎž8¤þ¢œÓ-
+Isquid:S1481?"+Remove this unused "county" local variable.(ážÎž8¤þ¢œÓ-
+nsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Â´»úÿÿÿÿÿ8¤þ¢œÓ-
+j$squid:AssignmentInSubExpressionCheckZ".Extract the assignment out of this expression.(²ð¯Ûÿÿÿÿÿ8¤þ¢œÓ-
+osquid:S00117{"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(©·én8¤þ¢œÓ-
+k$squid:AssignmentInSubExpressionCheck‚".Extract the assignment out of this expression.(àéÈÒüÿÿÿÿ8¤þ¢œÓ-
+psquid:S2095À"LUse try-with-resources or close this "BufferedWriter" in a "finally" clause.(îÞÀ‘ûÿÿÿÿ8Ñ‰ŸÓ-
+[squid:S1197/"8Move the array designator from the variable to the type.(£ôÄ‹üÿÿÿÿ8¤þ¢œÓ-
+isquid:CommentedOutCodeLine*"<This block of commented-out lines of code should be removed.(›ìÑÖ8¤þ¢œÓ-
+_squid:S1854Z"<Remove this useless assignment to local variable "province".(²ð¯Ûÿÿÿÿÿ8¤þ¢œÓ-
+nsquid:CommentedOutCodeLinea"<This block of commented-out lines of code should be removed.(±‡ìÆÿÿÿÿÿ8¤þ¢œÓ-
+rsquid:S2095¾"NUse try-with-resources or close this "FileOutputStream" in a "finally" clause.(ä•‡úÿÿÿÿÿ8èëàžÓ-
+isquid:CommentedOutCodeLineJ"<This block of commented-out lines of code should be removed.(¨¨ýÌ8¤þ¢œÓ-
+psquid:S2095«"LUse try-with-resources or close this "BufferedReader" in a "finally" clause.(Éàš—ýÿÿÿÿ8ÍÙ„žÓ-
+jsquid:CommentedOutCodeLine¦"<This block of commented-out lines of code should be removed.(¡ã‚ò8î¹„žÓ-
+psquid:S00117b"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(äœ«™8¤þ¢œÓ-
+@squid:S1659?""Declare "town" on a separate line.(ážÎž8¤þ¢œÓ-
+Bsquid:S1659?"$Declare "county" on a separate line.(ážÎž8¤þ¢œÓ-
+usquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(Úÿ³åûÿÿÿÿ8¤þ¢œÓ-
+psquid:S00117"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(î•§ê8¤þ¢œÓ-
+j$squid:AssignmentInSubExpressionChecku".Extract the assignment out of this expression.(Ó¢áµÿÿÿÿÿ8¤þ¢œÓ-
+Bsquid:S1659?"$Declare "number" on a separate line.(ážÎž8¤þ¢œÓ-
+nsquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(Ó“Ð»ÿÿÿÿÿ8¤þ¢œÓ-
