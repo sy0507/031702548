@@ -15,7 +15,8 @@ public class Lost {
     ArrayList<String> level_one=new ArrayList<>();
     ArrayList<String> level_two=new ArrayList<>();
     ArrayList<String> level_three=new ArrayList<>();
-    BufferedReader br=new BufferedReader(new FileReader(new File("lostAdress.txt")));
+    InputStream stream =  Lost.class.getClassLoader().getResourceAsStream("lostAdress");
+    BufferedReader br=new BufferedReader(new InputStreamReader(stream,"utf-8"));
 //    BufferedReader br=new BufferedReader(new FileReader(Lost.class.getClassLoader().getResource("lostAdress").getFile()));
     String line=null;
     int position=0;
@@ -26,7 +27,6 @@ public class Lost {
       String[] a=bufstring[position].split("\\s+");
       if (a[0].substring(2).equals("0000")) {
         level_one.add(a[1]);
-
 
       }
       else if (a[0].substring(4).equals("00")){
