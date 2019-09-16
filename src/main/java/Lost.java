@@ -55,7 +55,9 @@ public class Lost {
     if(m.find()){
 //      row=new LinkedHashMap<String,String>();
       city=m.group("city");
-      if (city.equals("%u5317%u4EAC%u5E02")||city.equals("上海市")||city.equals("重庆市")||city.equals("天津市")) {
+      String bj="北京市";
+      bj=new String(bj.getBytes("gbk"),"utf-8");
+      if (city.equals(bj)||city.equals("上海市")||city.equals("重庆市")||city.equals("天津市")) {
         jsonArray.put(city.substring(0,city.length()-1));
       }//特殊判断直辖市
       else{
