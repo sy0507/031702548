@@ -8,22 +8,17 @@ import java.util.regex.Pattern;
 
 public class Lost {
   public static JSONObject addressResolution(String address) throws IOException {
-//    Lost.class.getClassLoader().getResource("lostAdress");
-//    File file=new File(Lost.class.getClassLoader().getResource("lostAdress").getFile());
-//    String line=null;
-//    while ((line=))
+
     ArrayList<String> level_one=new ArrayList<>();
     ArrayList<String> level_two=new ArrayList<>();
     ArrayList<String> level_three=new ArrayList<>();
     InputStream stream =  Lost.class.getClassLoader().getResourceAsStream("lostAdress");
     BufferedReader br=new BufferedReader(new InputStreamReader(stream,"utf-8"));
-//    BufferedReader br=new BufferedReader(new FileReader(Lost.class.getClassLoader().getResource("lostAdress").getFile()));
     String line=null;
     int position=0;
     String[] bufstring=new String[20480];
     while((line=br.readLine())!=null) {
       bufstring[position]=line;
-//      System.out.println(bufstring[position].split("\\s+")[0] + "------" + bufstring[position].split("\\s+")[1]);
       String[] a=bufstring[position].split("\\s+");
       if (a[0].substring(2).equals("0000")) {
         level_one.add(a[1]);
@@ -37,13 +32,6 @@ public class Lost {
       }
       position++;
     }
-//    for (String s : level_one){
-//      System.out.println(s);
-//    }
-    br.close();//关闭文件
-//    for(int i=0;i<position;i++) {
-//      System.out.println(bufstring[i]);
-//    }
     JSONObject jsonObject=new JSONObject();
     String aString=address;
     String splits[] = aString.split(",");
@@ -166,12 +154,8 @@ public class Lost {
   public static void main(String[] args) throws IOException {
 
     JSONArray jsonArray=new JSONArray();
-//    jsonArray.put(addressResolution("李四,福建省福州13756899511市鼓楼区鼓西街道湖滨路110号湖滨大厦一层."));
-//    jsonArray.put(addressResolution("张三,福建福州闽13599622362侯县上街镇福州大学10#111."));
-//    jsonArray.put(addressResolution("王五,福建省福州市鼓楼18960221533区五一北路123号福州鼓楼医院."));
-//    jsonArray.put(addressResolution("小美,北京市东15822153326城区交道口东大街1号北京市东城区人民法院."));
-//    jsonArray.put(addressResolution("小陈,广东省东莞市凤岗13965231525镇凤平路13号."));
-    File fin = new File("1.txt");
+
+    File fin = new File(args[0]);
     FileInputStream in=new FileInputStream(fin);
     BufferedReader br=new BufferedReader((new InputStreamReader(in, "UTF-8")));
     String line=null;
@@ -191,13 +175,12 @@ public class Lost {
 
       jsonArray.put(addressResolution(bufstring[i]));
     }
-   File file=new File("2.txt");
+   File file=new File(args[1]);
     FileOutputStream out=new FileOutputStream(file,true);
 
     BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
     bw.write(jsonArray.toString());
 
-    System.out.println(jsonArray.toString());
 
     bw.flush();
     System.out.println(jsonArray);
