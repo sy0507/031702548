@@ -6,6 +6,11 @@ plugins {
 
 version ''
 
+tasks.withType(JavaCompile) {
+  options.encoding = "UTF-8"
+}
+
+
 sourceCompatibility = 1.7
 
 repositories {

@@ -33,6 +33,8 @@ public class Lost {
       position++;
     }
     JSONObject jsonObject=new JSONObject();
+    String str=address.substring(0,2);
+    address=address.replace(str,"");
     String aString=address;
     String splits[] = aString.split(",");
     String name= splits[0];
@@ -55,9 +57,10 @@ public class Lost {
     if(m.find()){
 //      row=new LinkedHashMap<String,String>();
       city=m.group("city");
-      String bj="北京市";
-      bj=new String(bj.getBytes("gbk"),"utf-8");
-      if (city.equals(bj)||city.equals("上海市")||city.equals("重庆市")||city.equals("天津市")) {
+//      String bj="北京市";
+//      bj=new String(bj.getBytes("gbk"),"utf-8");
+
+      if (city.equals("北京市")||city.equals("上海市")||city.equals("重庆市")||city.equals("天津市")) {
         jsonArray.put(city.substring(0,city.length()-1));
       }//特殊判断直辖市
       else{
@@ -156,6 +159,8 @@ public class Lost {
   public static void main(String[] args) throws IOException {
 
     JSONArray jsonArray=new JSONArray();
+//    jsonArray.put(addressResolution("1!李四,福建省福州13756899511市鼓楼区鼓西街道湖滨路110号湖滨大厦一层."));
+////    jsonArray.put(addressResolution("2!张三,福建福州闽13599622362侯县上街镇福州大学10#111."));
 
     File fin = new File(args[0]);
     FileInputStream in=new FileInputStream(fin);
@@ -185,6 +190,6 @@ public class Lost {
 
 
     bw.flush();
-    System.out.println(jsonArray);
+//    System.out.println(jsonArray);
   }
 }
