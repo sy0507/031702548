@@ -35,6 +35,7 @@ public class Lost {
     JSONObject jsonObject=new JSONObject();
     String str=address.substring(0,2);
     address=address.replace(str,"");
+    address=address.replace("!","");
     String aString=address;
     String splits[] = aString.split(",");
     String name= splits[0];
@@ -187,8 +188,6 @@ public class Lost {
 
     BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
     bw.write(jsonArray.toString());
-
-
     bw.flush();
 //    System.out.println(jsonArray);
   }
