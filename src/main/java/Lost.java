@@ -13,7 +13,7 @@ public class Lost {
     ArrayList<String> level_two=new ArrayList<>();
     ArrayList<String> level_three=new ArrayList<>();
     InputStream stream =  Lost.class.getClassLoader().getResourceAsStream("lostAdress");
-    BufferedReader br=new BufferedReader(new InputStreamReader(stream,"utf-8"));
+    BufferedReader br=new BufferedReader(new InputStreamReader(stream));
     String line=null;
     int position=0;
     String[] bufstring=new String[20480];
@@ -160,11 +160,11 @@ public class Lost {
 
     JSONArray jsonArray=new JSONArray();
 //    jsonArray.put(addressResolution("1!李四,福建省福州13756899511市鼓楼区鼓西街道湖滨路110号湖滨大厦一层."));
-////    jsonArray.put(addressResolution("2!张三,福建福州闽13599622362侯县上街镇福州大学10#111."));
+//    jsonArray.put(addressResolution("2!张三,福建福州闽13599622362侯县上街镇福州大学10#111."));
 
     File fin = new File(args[0]);
     FileInputStream in=new FileInputStream(fin);
-    BufferedReader br=new BufferedReader((new InputStreamReader(in, "UTF-8")));
+    BufferedReader br=new BufferedReader((new InputStreamReader(in)));
     String line=null;
     int position=0;
     String[] bufstring=new String[20480];
@@ -185,7 +185,7 @@ public class Lost {
    File file=new File(args[1]);
     FileOutputStream out=new FileOutputStream(file,true);
 
-    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out, "UTF-8"));
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
     bw.write(jsonArray.toString());
 
 
