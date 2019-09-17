@@ -54,6 +54,10 @@ public class Lost {
       address=address.replace(phoneNumber,"");
     }
     jsonObject.put("手机",phoneNumber);
+      if (address.equals("")) {
+        return jsonObject;
+
+      }
     String regex="(?<province>[^省]+自治区|.*?省|.*?行政区|)(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|)(?<county>[^县]+县|.+?区|.+市|.+旗|.+海域|.+岛)?(?<town>.+镇|.+街道)?(?<village>.*)";
     Matcher m=Pattern.compile(regex).matcher(address);
     String province=null,city=null,county=null,town=null,road=null,number=null,village=null;
@@ -177,6 +181,9 @@ public class Lost {
         address=address.replace(phoneNumber,"");
       }
       jsonObject.put("手机",phoneNumber);
+      if (address.equals("")) {
+        return jsonObject;
+      }
       String regex="(?<province>[^省]+自治区|.*?省|.*?行政区|)(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|)(?<county>[^县]+县|.+?区|.+市|.+旗|.+海域|.+岛)?(?<town>.+镇|.+街道)?(?<road>.*街|.*路|.*巷)?(?<number>[\\d]+号|)?(?<village>.*)";
       Matcher m=Pattern.compile(regex).matcher(address);
       String province=null,city=null,county=null,town=null,road=null,number=null,village=null;
@@ -298,6 +305,7 @@ public class Lost {
 //    jsonArray.put(addressResolution("2!李四,福建省福州13756899511市鼓楼区鼓西街道湖滨路110号湖滨大厦一层."));
 //    jsonArray.put(addressResolution("1!张三,福建福州闽13599622362侯县上街镇福州大学10#111."));
 //    jsonArray.put(addressResolution("3!小美,北京市东15822153326城区交道口东大街1号北京市东城区人民法院."));
+//    jsonArray.put(addressResolution("2!小王,15659172136"));
 ////    Scanner scanner = new Scanner(System.in);
 //////    scanner.next();
 
