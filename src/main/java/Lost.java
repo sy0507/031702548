@@ -33,6 +33,7 @@ public class Lost {
       }
       position++;
     }
+    address=address.replace(null,"");
     String split[]=address.split("!");
     JSONObject jsonObject=new JSONObject();
     if (split[0].equals("1")){
@@ -285,6 +286,8 @@ public class Lost {
     }
     if (split[0].equals("3")){
     return jsonObject;}
+
+
     return null;
   }
 
