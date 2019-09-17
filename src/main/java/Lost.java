@@ -25,6 +25,7 @@ public class Lost {
         level_one.add(a[1]);
 
       }
+
       else if (a[0].substring(4).equals("00")){
         level_two.add(a[1]);
       }
@@ -58,7 +59,7 @@ public class Lost {
         return jsonObject;
 
       }
-    String regex="(?<province>[^省]+自治区|.*?省|.*?行政区|)(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|)(?<county>[^县]+县|.+?区|.+市|.+旗|.+海域|.+岛)?(?<town>.+镇|.+街道)?(?<village>.*)";
+    String regex="(?<province>[^省]+自治区|.*?省|.*?行政区|)(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|)(?<county>[^县]+县|.+?区|.+市|.+旗|.+海域|.+岛)?(?<town>.+?镇|.+街道)?(?<village>.*)";
     Matcher m=Pattern.compile(regex).matcher(address);
     String province=null,city=null,county=null,town=null,road=null,number=null,village=null;
     JSONArray jsonArray=new JSONArray();
@@ -184,7 +185,7 @@ public class Lost {
       if (address.equals("")) {
         return jsonObject;
       }
-      String regex="(?<province>[^省]+自治区|.*?省|.*?行政区|)(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|)(?<county>[^县]+县|.+?区|.+市|.+旗|.+海域|.+岛)?(?<town>.+镇|.+街道)?(?<road>.*街|.*路|.*巷)?(?<number>[\\d]+号|)?(?<village>.*)";
+      String regex="(?<province>[^省]+自治区|.*?省|.*?行政区|)(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|)(?<county>[^县]+县|.+?区|.+市|.+旗|.+海域|.+岛)?(?<town>.+?镇|.+街道)?(?<road>.*街|.*路|.*巷)?(?<number>[\\d]+号|)?(?<village>.*)";
       Matcher m=Pattern.compile(regex).matcher(address);
       String province=null,city=null,county=null,town=null,road=null,number=null,village=null;
       JSONArray jsonArray=new JSONArray();
@@ -306,6 +307,9 @@ public class Lost {
 //    jsonArray.put(addressResolution("1!张三,福建福州闽13599622362侯县上街镇福州大学10#111."));
 //    jsonArray.put(addressResolution("3!小美,北京市东15822153326城区交道口东大街1号北京市东城区人民法院."));
 //    jsonArray.put(addressResolution("2!小王,15659172136"));
+//    jsonArray.put(addressResolution("2!宗衬缝,湖南长沙市浏阳市古港镇024乡道古港镇梅田15590409121湖村村民委员会."));
+//    jsonArray.put(addressResolution("2!王五,福建省福州市鼓楼18960221533区五一北路123号福州鼓楼医院."));
+//    jsonArray.put(addressResolution("1!小陈,广东省东莞市凤岗13965231525镇凤平路13号."));
 ////    Scanner scanner = new Scanner(System.in);
 //////    scanner.next();
 
