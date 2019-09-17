@@ -35,7 +35,7 @@ public class Lost {
     }
     String split[]=address.split("!");
     JSONObject jsonObject=new JSONObject();
-    if (split[0].equals("1")){
+    if (split[0].substring(split[0].length()-1,split[0].length()).equals("1")){
     String str=address.substring(0,2);
     address=address.replace(str,"");
     address=address.replace("!","");
@@ -158,7 +158,7 @@ public class Lost {
     }
     jsonObject.put("地址",jsonArray);
     return  jsonObject;}
-    if (split[0].equals("2")) {
+    if (split[0].substring(split[0].length()-1,split[0].length()).equals("2")) {
       String str=address.substring(0,2);
       address=address.replace(str,"");
       address=address.replace("!","");
@@ -283,7 +283,7 @@ public class Lost {
       return  jsonObject;
 
     }
-    if (split[0].equals("3")){
+    if (split[0].substring(split[0].length()-1,split[0].length()).equals("3")){
     return jsonObject;}
 
 
