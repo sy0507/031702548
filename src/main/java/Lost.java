@@ -142,9 +142,9 @@ public class Lost {
               }
 
             }
-            if (county_one.equals("")) {
-              jsonArray.put(county_one="");
-            }
+//            if (county_one.equals("")) {
+//              jsonArray.put(county_one="");
+//            }
 
           }
           else {
@@ -268,9 +268,9 @@ public class Lost {
                 }
 
               }
-              if (county_one.equals("")) {
-                jsonArray.put(county_one="");
-              }
+//              if (county_one.equals("")) {
+//                jsonArray.put(county_one="");
+//              }
 
             }
             else {
