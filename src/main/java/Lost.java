@@ -8,35 +8,40 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Lost {
+  static String province;
+  static String city;
+  static String county;
+  static String nowAdd;
+  static ArrayList<String> level_one=new ArrayList<>();
+  static ArrayList<String> level_two=new ArrayList<>();
+  static ArrayList<String> level_three=new ArrayList<>();
   public static JSONObject addressResolution(String address) throws IOException {
 
-    ArrayList<String> level_one=new ArrayList<>();
-    ArrayList<String> level_two=new ArrayList<>();
-    ArrayList<String> level_three=new ArrayList<>();
-    InputStream stream =  Lost.class.getClassLoader().getResourceAsStream("lostAdress");
-    BufferedReader br=new BufferedReader(new InputStreamReader(stream,"utf-8"));
-    String line=null;
-    int position=0;
-    String[] bufstring=new String[20480];
-    while((line=br.readLine())!=null) {
-      bufstring[position]=line;
-      String[] a=bufstring[position].split("\\s+");
-      if (a[0].substring(2).equals("0000")) {
-        level_one.add(a[1]);
+    if (level_one.size() == 0) {
+      InputStream stream =  Lost.class.getClassLoader().getResourceAsStream("lostAdress");
+      BufferedReader br=new BufferedReader(new InputStreamReader(stream,"utf-8"));
+      String line=null;
+      int position=0;
+      String[] bufstring=new String[20480];
+      while((line=br.readLine())!=null) {
+        bufstring[position]=line;
+        String[] a=bufstring[position].split("\\s+");
+        if (a[0].substring(2).equals("0000")) {
+          level_one.add(a[1]);
+        }
 
+        else if (a[0].substring(4).equals("00")){
+          level_two.add(a[1]);
+        }
+        else {
+          level_three.add(a[1]);
+        }
+        position++;
       }
-
-      else if (a[0].substring(4).equals("00")){
-        level_two.add(a[1]);
-      }
-      else {
-        level_three.add(a[1]);
-      }
-      position++;
     }
+
     String split[]=address.split("!");
     JSONObject jsonObject=new JSONObject();
-    if (split[0].substring(split[0].length()-1,split[0].length()).equals("1")){
     String str=address.substring(0,2);
     address=address.replace(str,"");
     address=address.replace("!","");
@@ -50,252 +55,70 @@ public class Lost {
     String phoneRegex = "\\d{11}";
     Matcher a = Pattern.compile(phoneRegex).matcher(address);
     String phoneNumber=null;
-    while (a.find()){
+
+    province = "";
+    city = "";
+    county = "";
+    nowAdd = "";
+    if (a.find()){
       phoneNumber=a.group();
       address=address.replace(phoneNumber,"");
     }
     jsonObject.put("手机",phoneNumber);
-      if (address.equals("")) {
-        return jsonObject;
-
-      }
-    String regex="(?<province>[^省]+自治区|.*?省|.*?行政区|)(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|)(?<county>[^县]+县|.+?区|.+市|.+旗|.+海域|.+岛)?(?<town>[^区]+?区|.+?镇|.+?街道|.+?乡)?(?<village>.*)";
-    Matcher m=Pattern.compile(regex).matcher(address);
-    String province=null,city=null,county=null,town=null,road=null,number=null,village=null;
-    JSONArray jsonArray=new JSONArray();
-    if(m.find()){
-//      row=new LinkedHashMap<String,String>();
-      city=m.group("city");
-//      String bj="北京市";
-//      bj=new String(bj.getBytes("gbk"),"utf-8");
-
-      if (city.equals("北京市")||city.equals("上海市")||city.equals("重庆市")||city.equals("天津市")) {
-        jsonArray.put(city.substring(0,city.length()-1));
-      }//特殊判断直辖市
-      else{
-        province = m.group("province");
-        if (province.equals("")) {
-//          System.out.println("okkk");
-          for (String s : level_one){
-
-            if (s.substring(0,2).equals(address.substring(0,2))) {
-              jsonArray.put(province=s);
-              if (province.substring(province.length()-1,province.length()).equals("省"))
-              {address=address.replace(province.substring(0,province.length()-1),"");}
-              if (province.substring(province.length()-3,province.length()).equals("自治区")) {
-                address=address.replace(province.substring(0,province.length()-3),"");
-              }
-              if (province.substring(province.length()-3,province.length()).equals("行政区")) {
-                address=address.replace(province.substring(0,province.length()-3),"");
-              }
-            }
-          }
-          if (province.equals("")) {
-            jsonArray.put(province="");
-          }
-        }
-
-        else {
-          jsonArray.put(province == null ? "" : province.trim());
-        }
-      }
-//      System.out.println(address);
-      String city_one=null;
-      Matcher c=Pattern.compile(regex).matcher(address);
-      if(c.find()) {
-        city_one = c.group("city");
-        if (city_one.equals("")) {
-          for (String i : level_two){
-            if (i.substring(0,2).equals(address.substring(0,2))) {
-              jsonArray.put(city_one=i);
-              if (city_one.substring(city_one.length()-1,city_one.length()).equals("市")||city_one.substring(city_one.length()-1,city_one.length()).equals("盟"))
-              {address=address.replace(city_one.substring(0,city_one.length()-1),"");}
-              if (city_one.substring(city_one.length()-3,city_one.length()).equals("自治州")) {
-                address=address.replace(city_one.substring(0,city_one.length()-3),"");
-              }
-
-
-            }
-
-          }
-          if (city_one.equals("")) {
-            jsonArray.put(city_one="");
-          }
-
-        }
-        else{
-          jsonArray.put(city_one == null ? "" : city_one.trim());}
-        String county_one=null;
-        Matcher b=Pattern.compile(regex).matcher(address);
-        if (b.find()) {
-          county_one=b.group("county");
-          if (city_one.equals("")) {
-            for (String i : level_three){
-              if (i.substring(0,2).equals(address.substring(0,2))) {
-                jsonArray.put(county_one=i);
-                if (county_one.substring(county_one.length()-1,county_one.length()).equals("市")||county_one.substring(county_one.length()-1,county_one.length()).equals("区")||county_one.substring(county_one.length()-1,county_one.length()).equals("旗"))
-                {address=address.replace(county_one.substring(0,county_one.length()-1),"");}
-                if (county_one.substring(county_one.length()-3,county_one.length()).equals("自治州")) {
-                  address=address.replace(county_one.substring(0,county_one.length()-3),"");
-                }
-
-              }
-
-            }
-//            if (county_one.equals("")) {
-//              jsonArray.put(county_one="");
-//            }
-
-          }
-          else {
-            jsonArray.put(county_one == null ? "" : county_one.trim());}
-        }
-
-        town = m.group("town");
-        jsonArray.put(town == null ? "" : town.trim());
-//        road=m.group("road");
-//        jsonArray.put(road==null?"":road.trim());
-//        number=m.group("number");
-//        jsonArray.put(number==null?"":number.trim());
-        village = m.group("village");
-        jsonArray.put(village == null ? "" : village.trim());
-      }
+    if (address.equals("")) {
+      return jsonObject;
     }
-    jsonObject.put("地址",jsonArray);
-    return  jsonObject;}
-    if (split[0].substring(split[0].length()-1,split[0].length()).equals("2")) {
-      String str=address.substring(0,2);
-      address=address.replace(str,"");
-      address=address.replace("!","");
-      String aString=address;
-      String splits[] = aString.split(",");
-      String name= splits[0];
-      jsonObject.put("姓名",name);
-      address=address.replace(name,"");
-      address=address.replace(",","");
-      address=address.replace(".","");
-      String phoneRegex = "\\d{11}";
-      Matcher a = Pattern.compile(phoneRegex).matcher(address);
-      String phoneNumber=null;
-      while (a.find()){
-        phoneNumber=a.group();
-        address=address.replace(phoneNumber,"");
+    JSONArray jsonArray=new JSONArray();
+    nowAdd = address;
+    getProvince(nowAdd);
+    getCity(nowAdd);
+    getcounty(nowAdd);
+    jsonArray.put(province);
+    jsonArray.put(city);
+    jsonArray.put(county);
+    if (split[0].substring(split[0].length()-1,split[0].length()).equals("1")){
+      String regex;
+      if (!county.equals("") && county.substring(county.length() - 1).equals("区")) {
+        regex = "(?<town>.+?镇|.+街道)?(?<village>.*)";
+      }else{
+        regex = "(?<town>[^区]+?区|.+?镇|.+街道)?(?<village>.*)";
       }
-      jsonObject.put("手机",phoneNumber);
-      if (address.equals("")) {
+
+      String town=null,road=null,number=null,village=null;
+      Matcher m=Pattern.compile(regex).matcher(nowAdd);
+      if (m.find()) {
+        town = m.group("town");
+        jsonArray.put(town == null ? "": town.trim());
+        village = m.group("village");
+        jsonArray.put(village == null ? "": village.trim());
+      }
+      jsonObject.put("地址",jsonArray);
         return jsonObject;
+      }else if (split[0].substring(split[0].length()-1,split[0].length()).equals("2") ){
+      String regex;
+      if (!county.equals("") && county.substring(county.length() - 1).equals("区")) {
+        regex = "(?<town>.+?镇|.+?街道|.+?乡)?(?<village1>.+?街|.+?路|.+?巷)?(?<village2>[\\d]+?号|[\\d]+.?道)?(?<village3>.*)";
+      }else{
+        regex = "(?<town>[^区]+?区|.+?镇|.+?街道|.+?乡)?(?<village1>.+?街|.+?路|.+?巷)?(?<village2>[\\d]+?号|[\\d]+.?道)?(?<village3>.*)";
       }
-      String regex="(?<province>[^省]+自治区|.*?省|.*?行政区|)(?<city>[^市]+自治州|.*?地区|.*?行政单位|.+盟|市辖区|.*?市|)(?<county>[^县]+县|.+?区|.+市|.+旗|.+海域|.+岛)?(?<town>[^区]+区|.+?镇|.+?街道|.+?乡)?(?<road>.+?街|.+?路|.+?巷)?(?<number>[\\d]+?号|[\\d]+.?道)?(?<village>.*)";
-      Matcher m=Pattern.compile(regex).matcher(address);
-      String province=null,city=null,county=null,town=null,road=null,number=null,village=null;
-      JSONArray jsonArray=new JSONArray();
-      if(m.find()){
-//      row=new LinkedHashMap<String,String>();
-        city=m.group("city");
-//      String bj="北京市";
-//      bj=new String(bj.getBytes("gbk"),"utf-8");
+      String town=null,road=null,number=null,village=null;
+      Matcher m=Pattern.compile(regex).matcher(nowAdd);
 
-        if (city.equals("北京市")||city.equals("上海市")||city.equals("重庆市")||city.equals("天津市")) {
-          jsonArray.put(city.substring(0,city.length()-1));
-        }//特殊判断直辖市
-        else{
-          province = m.group("province");
-          if (province.equals("")) {
-//          System.out.println("okkk");
-            for (String s : level_one){
-
-              if (s.substring(0,2).equals(address.substring(0,2))) {
-                jsonArray.put(province=s);
-                if (province.substring(province.length()-1,province.length()).equals("省"))
-                {address=address.replace(province.substring(0,province.length()-1),"");}
-                if (province.substring(province.length()-3,province.length()).equals("自治区")) {
-                  address=address.replace(province.substring(0,province.length()-3),"");
-                }
-                if (province.substring(province.length()-3,province.length()).equals("行政区")) {
-                  address=address.replace(province.substring(0,province.length()-3),"");
-                }
-              }
-            }
-            if (province.equals("")) {
-              jsonArray.put(province="");
-            }
-          }
-
-          else {
-            jsonArray.put(province == null ? "" : province.trim());
-          }
-        }
-//      System.out.println(address);
-        String city_one=null;
-        Matcher c=Pattern.compile(regex).matcher(address);
-        if(c.find()) {
-          city_one = c.group("city");
-          if (city_one.equals("")) {
-            for (String i : level_two){
-              if (i.substring(0,2).equals(address.substring(0,2))) {
-                jsonArray.put(city_one=i);
-                if (city_one.substring(city_one.length()-1,city_one.length()).equals("市")||city_one.substring(city_one.length()-1,city_one.length()).equals("盟"))
-                {address=address.replace(city_one.substring(0,city_one.length()-1),"");}
-                if (city_one.substring(city_one.length()-3,city_one.length()).equals("自治州")) {
-                  address=address.replace(city_one.substring(0,city_one.length()-3),"");
-                }
-
-
-              }
-
-            }
-            if (city_one.equals("")) {
-              jsonArray.put(city_one="");
-            }
-
-          }
-          else{
-            jsonArray.put(city_one == null ? "" : city_one.trim());}
-          String county_one=null;
-          Matcher b=Pattern.compile(regex).matcher(address);
-          if (b.find()) {
-            county_one=b.group("county");
-            if (city_one.equals("")) {
-              for (String i : level_three){
-                if (i.substring(0,2).equals(address.substring(0,2))) {
-                  jsonArray.put(county_one=i);
-                  if (county_one.substring(county_one.length()-1,county_one.length()).equals("市")||county_one.substring(county_one.length()-1,county_one.length()).equals("区")||county_one.substring(county_one.length()-1,county_one.length()).equals("旗"))
-                  {address=address.replace(county_one.substring(0,county_one.length()-1),"");}
-                  if (county_one.substring(county_one.length()-3,county_one.length()).equals("自治州")) {
-                    address=address.replace(county_one.substring(0,county_one.length()-3),"");
-                  }
-
-                }
-
-              }
-//              if (county_one.equals("")) {
-//                jsonArray.put(county_one="");
-//              }
-
-            }
-            else {
-              jsonArray.put(county_one == null ? "" : county_one.trim());}
-          }
-
-          town = m.group("town");
-          jsonArray.put(town == null ? "" : town.trim());
-          road=m.group("road");
-          jsonArray.put(road==null?"":road.trim());
-          number=m.group("number");
-          jsonArray.put(number==null?"":number.trim());
-          village = m.group("village");
-          jsonArray.put(village == null ? "" : village.trim());
-        }
+      if (m.find()) {
+        town = m.group("town");
+        jsonArray.put(town == null ? "": town.trim());
+        String village1 = m.group("village1");
+        jsonArray.put(village1 == null ? "": village1.trim());
+        String village2 = m.group("village2");
+        jsonArray.put(village2 == null ? "": village2.trim());
+        String village3 = m.group("village3");
+        jsonArray.put(village3 == null ? "": village3.trim());
       }
       jsonObject.put("地址",jsonArray);
       return  jsonObject;
-
+    }else {
+      return new JSONObject();
     }
-    if (split[0].substring(split[0].length()-1,split[0].length()).equals("3")){
-    return jsonObject;}
-
-
-    return null;
   }
 
 
@@ -303,15 +126,15 @@ public class Lost {
 
     JSONArray jsonArray=new JSONArray();
 
-//    jsonArray.put(addressResolution("2!李四,福建省福州13756899511市鼓楼区鼓西街道湖滨路110号湖滨大厦一层."));
-//    jsonArray.put(addressResolution("1!张三,福建福州闽13599622362侯县上街镇福州大学10#111."));
-//    jsonArray.put(addressResolution("3!小美,北京市东15822153326城区交道口东大街1号北京市东城区人民法院."));
-//    jsonArray.put(addressResolution("2!小王,15659172136"));
-//    jsonArray.put(addressResolution("2!宗衬缝,湖南长沙市浏阳市古港镇024乡道古港镇梅田15590409121湖村村民委员会."));
-//    jsonArray.put(addressResolution("2!王五,福建省福州市鼓楼18960221533区五一北路123号福州鼓楼医院."));
-//    jsonArray.put(addressResolution("1!小陈,广东省东莞市凤岗13965231525镇凤平路13号."));
-//    Scanner scanner = new Scanner(System.in);
-//    scanner.next();
+//    jsonArray.put(addressResolution("1!鲁胞,上海长宁区周18951233466家桥街道长宁路999号春天花园."));
+////    jsonArray.put(addressResolution("1!张三,福建福州闽13599622362侯县上街镇福州大学10#111."));
+//    jsonArray.put(addressResolution("1!小美,北京市东15822153326城区交道口东大街1号北京市东城区人民法院."));
+//    jsonArray.put(addressResolution("1!臧街经,北京市东城区北新桥街道东直门内大街民15679601503安小区8号楼."));
+////    jsonArray.put(addressResolution("2!宗衬缝,湖南长沙市浏阳市古港镇024乡道古港镇梅田15590409121湖村村民委员会."));
+////    jsonArray.put(addressResolution("2!王五,福建省福州市鼓楼18960221533区五一北路123号福州鼓楼医院."));
+////    jsonArray.put(addressResolution("1!小陈,广东省东莞市凤岗13965231525镇凤平路13号."));
+////    Scanner scanner = new Scanner(System.in);
+////    scanner.next();
 
     File fin = new File(args[0]);
     FileInputStream in=new FileInputStream(fin);
@@ -340,7 +163,120 @@ public class Lost {
     bw.write(jsonArray.toString());
     bw.flush();
 //    System.out.println(jsonArray);
+//    JSONArray jsonArray2 = new JSONArray(l3);
+//    for (int i = 0; i < jsonArray.length(); i++){
+//      JSONObject jsonObject = jsonArray.getJSONObject(i);
+//      JSONObject jsonObject1 = jsonArray2.getJSONObject(i);
+//      double aa = 0;
+//      if (!jsonObject1.toString().equals("{}") && jsonObject1.getInt("level") == 1){
+//        level1++;
+//        aa = 0.08;
+//      }else if (!jsonObject1.toString().equals("{}") && jsonObject1.getInt("level") == 2)
+//      {
+//        level2++;
+//        aa = 0.2;
+//      }else
+//      {
+//        level3++;
+//      }
+//      if (!jsonObject.toString().equals("{}") && !jsonObject1.toString().equals("{}"))
+//        if (jsonObject.get("地址").toString().equals(jsonObject1.get("地址").toString())){
+//          count += aa ;
+//        }else{
+//          System.out.println(jsonObject.get("地址").toString());
+//          System.out.println(jsonObject1.get("地址").toString());
+//        }
+//    }
+//    System.out.println(level1);
+//    System.out.println(level2);
+//    System.out.println(level3);
+//    System.out.println(count);
+
 //    Scanner scanner1 = new Scanner(System.in);
 //    scanner1.next();
   }
+
+  private static void getProvince(String add){
+    int len = 0;
+    for (String s : level_one){
+      String sub = s.substring(s.length() - 1);
+      if (sub.equals("省")){
+        if (add.substring(0,s.length() - 1).equals(s.substring(0,s.length() - 1))) {
+          province = s;
+          len = s.length() - 1;
+          if (add.charAt(s.length() - 1) == '省') {
+            len = s.length();
+          }
+          break;
+        }
+      }else if (sub.equals("市")) {
+        if (add.substring(0,s.length() - 1).equals(s.substring(0,s.length() - 1))) {
+          province = s.substring(0,s.length() - 1);
+          city = s;
+          len = s.length() - 1;
+          if (add.charAt(s.length() - 1) == '市') {
+            len = s.length();
+          }
+          break;
+        }
+
+      }else if (s.substring(s.length() - 3).equals("自治区")) {
+        if (add.substring(0,s.length() - 3).equals(s.substring(0,s.length() - 3))) {
+          province = s;
+          len = s.length() - 3;
+          if (add.substring(s.length() - 3,s.length()).equals("自治区")) {
+            len = s.length();
+          }
+          break;
+        }
+      }
+    }
+
+    nowAdd = add.substring(len);
+    return;
+  }
+
+  private static void getCity(String add){
+    if (!city.equals("")) {
+      return;
+    }
+    int len = 0;
+    for (String s : level_two){
+      String sub = s.substring(s.length() - 1);
+      if (sub.equals("市") || sub.equals("区")){
+        if (add.substring(0,s.length() - 1).equals(s.substring(0,s.length() - 1))) {
+          city = s;
+          len = s.length() - 1;
+          if (add.charAt(s.length() - 1) == '区' || add.charAt(s.length() - 1) == '市' ) {
+            len = s.length();
+          }
+        }
+      }else if (s.substring(s.length() - 3).equals("自治州")) {
+        if (add.substring(0,s.length() - 3).equals(s.substring(0,s.length() - 3))) {
+          city = s;
+          len = s.length() - 3;
+          if (add.substring(s.length() - 3, s.length()).equals("自治州")) {
+            len = s.length();
+          }
+        }
+      }
+    }
+    nowAdd= add.substring(len);
+    return;
+  }
+
+
+  private static void getcounty(String add){
+    int len = 0;
+    for (String s : level_three){
+      if (add.length() > s.length() && (add.substring(0,s.length()).equals(s))) {
+        county = s;
+        len = s.length();
+      }
+    }
+    nowAdd= add.substring(len);
+    return;
+  }
+
+
 }
