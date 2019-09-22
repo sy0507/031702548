@@ -141,7 +141,7 @@ public class Lost {
     BufferedReader br=new BufferedReader((new InputStreamReader(in, "UTF-8")));
     String line=null;
     int position=0;
-    String[] bufstring=new String[40960];
+    String[] bufstring=new String[4096000];
     while((line=br.readLine())!=null) {
       bufstring[position]=line;
 
