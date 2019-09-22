@@ -154,11 +154,6 @@ public class Lost {
 //    for(int i=0;i<position;i++) {
 //      System.out.println(bufstring[i]);}
     for (int i=0;i<position;i++){
-      if (i>=1100) {
-        break;
-
-      }
-
       jsonArray.put(addressResolution(bufstring[i]));
     }
    File file=new File(args[1]);
