@@ -117,7 +117,7 @@ public class Lost {
       jsonObject.put("地址",jsonArray);
       return  jsonObject;
     }else {
-      return new JSONObject();
+      return null;
     }
   }
 
