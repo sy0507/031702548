@@ -118,6 +118,7 @@ public class Lost {
       return  jsonObject;
     }
     return null;
+
   }
 
 
@@ -152,6 +153,10 @@ public class Lost {
 //    for(int i=0;i<position;i++) {
 //      System.out.println(bufstring[i]);}
     for (int i=0;i<position;i++){
+      String split[]=bufstring[i].split("!");
+      if (split[0].substring(split[0].length()-1,split[0].length()).equals("3")) {
+        return;
+      }
 
       jsonArray.put(addressResolution(bufstring[i]));
     }
