@@ -119,6 +119,27 @@ public class Lost {
     }
 
     if (split[0].substring(split[0].length()-1,split[0].length()).equals("3")) {
+      String regex;
+      if (!county.equals("") && county.substring(county.length() - 1).equals("区")) {
+        regex = "(?<town>.+?镇|.+?街道|.+?乡)?(?<village1>.+?街|.+?路|.+?巷)?(?<village2>[\\d]+?号|[\\d]+.?道)?(?<village3>.*)";
+      }else{
+        regex = "(?<town>[^区]+?区|.+?镇|.+?街道|.+?乡)?(?<village1>.+?街|.+?路|.+?巷)?(?<village2>[\\d]+?号|[\\d]+.?道)?(?<village3>.*)";
+      }
+      String town=null,road=null,number=null,village=null;
+      Matcher m=Pattern.compile(regex).matcher(nowAdd);
+
+      if (m.find()) {
+        town = m.group("town");
+        jsonArray.put(town == null ? "": town.trim());
+        String village1 = m.group("village1");
+        jsonArray.put(village1 == null ? "": village1.trim());
+        String village2 = m.group("village2");
+        jsonArray.put(village2 == null ? "": village2.trim());
+        String village3 = m.group("village3");
+        jsonArray.put(village3 == null ? "": village3.trim());
+      }
+      jsonObject.put("地址",jsonArray);
+
       return jsonObject;
 
     }
